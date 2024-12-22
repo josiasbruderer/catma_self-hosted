@@ -11,6 +11,7 @@ tmp
 
 # Properties files that may contain secrets
 catma*.properties
+!helpers/catma.properties
 
 # Eclipse config files
 .classpath
