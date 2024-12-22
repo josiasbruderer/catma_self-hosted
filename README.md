@@ -59,7 +59,7 @@ echo 'ROOTDOMAIN=[YOUR-DOMAIN]' | sudo tee -a /etc/environment
 
 ```bash
 sudo apt update && sudo apt upgrade
-sudo apt install git nano nmon ncdu ca-certificates curl
+sudo apt install git nano nmon ncdu ca-certificates curl pv
 
 #Install legacy Java (JDK 8) which is required to build CATMA dependencies...
 echo "deb http://ftp.de.debian.org/debian sid main" | sudo tee -a /etc/apt/sources.list 
@@ -241,7 +241,7 @@ sudo systemctl restart tomcat
 ## Update
 
 
-```
+```bash
 cd ~/catma_self-hosted
 git fetch --all
 git reset --hard
@@ -280,4 +280,14 @@ sudo cp /opt/catma-app/source/catma-7.0-SNAPSHOT.war /opt/tomcat/webapps/ROOT.wa
 sleep 20 #wait around 20 seconds
 sudo cp /opt/catma-app/source/catma.properties /opt/tomcat/webapps/ROOT/catma.properties
 sudo systemctl restart tomcat
+```
+
+## Setup Backup
+
+```bash
+sudo cp ~/catma_self-hosted/helpers/backup.sh /root/
+chmod +x /root/backup.sh
+sudo su
+crontab -e
+#ADD: 5 4 * * * /root/backup.sh
 ```
