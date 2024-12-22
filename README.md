@@ -247,10 +247,11 @@ git fetch --all
 git reset --hard
 git pull
 
-#replace all placeholders
+echo "Replace placeholders with: $ROOTDOMAIN"
 find ./ -type f -exec sed -i -e "s/\[YOUR\-DOMAIN\]/${ROOTDOMAIN}/g" {} \;
 git restore README.md
 
+#if helpers/nginx_default changed, you need to:
 sudo cp ~/catma_self-hosted/helpers/nginx_default /etc/nginx/sites-available/default
 sudo systemctl restart nginx
 sudo certbot --nginx --email support@$ROOTDOMAIN -d $ROOTDOMAIN -d app.$ROOTDOMAIN -d git.$ROOTDOMAIN
@@ -262,16 +263,21 @@ sudo systemctl stop tomcat
 mvn clean compile package -DskipTests
 
 sudo cp ~/catma_self-hosted/target/catma-7.0-SNAPSHOT.war /opt/catma-app/source/
+
+#if helpers/catma.properties changed, you need to:
 #manually compare ~/catma_self-hosted/helpers/catma.properties with /opt/catma-app/source/catma.properties
+
+if helpers/web/* changed, you need to:
 #manually compare ~/catma_self-hosted/helpers/web/* with /opt/catma-app/web/*
 #or: sudo cp ~/catma_self-hosted/helpers/web/* /opt/catma-app/web/
 
-sudo rm -r /opt/tomcat/webapps/ROOT
+sudo rm -r /opt/tomcat/webapps/ROOT /opt/tomcat/webapps/ROOT.war
 
 sudo gitlab-ctl start
 sudo systemctl start tomcat
 
 sudo cp /opt/catma-app/source/catma-7.0-SNAPSHOT.war /opt/tomcat/webapps/ROOT.war
+sleep 20 #wait around 20 seconds
 sudo cp /opt/catma-app/source/catma.properties /opt/tomcat/webapps/ROOT/catma.properties
 sudo systemctl restart tomcat
 ```

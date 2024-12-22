@@ -239,7 +239,7 @@ public class SignInDialog extends AuthenticationDialog implements Action.Handler
 
 		regularSignInLayout.addComponent(lblChoice);
 		regularSignInLayout.addComponent(pnlEmail);
-		regularSignInLayout.addComponent(pnlGoogle);
+		//regularSignInLayout.addComponent(pnlGoogle);
 
 		patSignInLayout = new VerticalLayout();
 		patSignInLayout.setMargin(false);

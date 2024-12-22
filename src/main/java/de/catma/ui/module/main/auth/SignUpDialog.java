@@ -275,7 +275,7 @@ public class SignUpDialog extends AuthenticationDialog {
 
 		content.addComponent(lblChoice);
 		content.addComponent(pnlEmail);
-		content.addComponent(pnlGoogle);
+		//content.addComponent(pnlGoogle);
 		content.addComponent(hlLinks);
 
 		setContent(content);
