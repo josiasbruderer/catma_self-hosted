@@ -56,7 +56,7 @@ public class ProjectConverter implements AutoCloseable {
 	private final LegacyProjectHandler legacyProjectHandler;
 
 	private static final String SYSTEM_COMMITTER_NAME = "CATMA System";
-	private static final String SYSTEM_COMMITTER_EMAIL = "support@catma.de";
+	private static final String SYSTEM_COMMITTER_EMAIL = "support@[YOUR-DOMAIN]";
 
 	public ProjectConverter() throws Exception {
 		String propertiesFile = System.getProperties().containsKey("prop") ? System.getProperties().getProperty("prop") : "catma.properties";

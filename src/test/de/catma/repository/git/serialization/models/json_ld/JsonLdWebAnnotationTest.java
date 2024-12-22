@@ -68,10 +68,10 @@ public class JsonLdWebAnnotationTest {
 			"{\n" +
 			"\t\"body\":{\n" +
 			"\t\t\"@context\":{\n" +
-			"\t\t\t\"UPROP_DEF\":\"http://catma.de/gitlab/%1$s/tagsets/%2$s/%3$s/propertydefs.json/%4$s\",\n" +
-			"\t\t\t\"catma_displaycolor\":\"http://catma.de/gitlab/%1$s/tagsets/%2$s/%3$s/propertydefs.json/%5$s\",\n" +
-			"\t\t\t\"tag\":\"http://catma.de/portal/tag\",\n" +
-			"\t\t\t\"tagset\":\"http://catma.de/portal/tagset\"\n" +
+			"\t\t\t\"UPROP_DEF\":\"http://[YOUR-DOMAIN]/gitlab/%1$s/tagsets/%2$s/%3$s/propertydefs.json/%4$s\",\n" +
+			"\t\t\t\"catma_displaycolor\":\"http://[YOUR-DOMAIN]/gitlab/%1$s/tagsets/%2$s/%3$s/propertydefs.json/%5$s\",\n" +
+			"\t\t\t\"tag\":\"http://[YOUR-DOMAIN]/portal/tag\",\n" +
+			"\t\t\t\"tagset\":\"http://[YOUR-DOMAIN]/portal/tagset\"\n" +
 			"\t\t},\n" +
 			"\t\t\"properties\":{\n" +
 			"\t\t\t\"system\":{\n" +
@@ -81,12 +81,12 @@ public class JsonLdWebAnnotationTest {
 			"\t\t\t\t\"UPROP_DEF\":[\"UPROP_VAL_2\"]\n" +
 			"\t\t\t}\n" +
 			"\t\t},\n" +
-			"\t\t\"tag\":\"http://catma.de/gitlab/%1$s/tagsets/%2$s/%3$s\",\n" +
-			"\t\t\"tagset\":\"http://catma.de/gitlab/%1$s/tagsets/%2$s\",\n" +
+			"\t\t\"tag\":\"http://[YOUR-DOMAIN]/gitlab/%1$s/tagsets/%2$s/%3$s\",\n" +
+			"\t\t\"tagset\":\"http://[YOUR-DOMAIN]/gitlab/%1$s/tagsets/%2$s\",\n" +
 			"\t\t\"type\":\"Dataset\"\n" +
 			"\t},\n" +
 			"\t\"@context\":\"http://www.w3.org/ns/anno.jsonld\",\n" +
-			"\t\"id\":\"http://catma.de/gitlab/%1$s/collections/%6$s/annotations/%7$s.json\",\n" +
+			"\t\"id\":\"http://[YOUR-DOMAIN]/gitlab/%1$s/collections/%6$s/annotations/%7$s.json\",\n" +
 			"\t\"target\":{\n" +
 			"\t\t\"items\":[{\n" +
 			"\t\t\t\"selector\":{\n" +
@@ -94,7 +94,7 @@ public class JsonLdWebAnnotationTest {
 			"\t\t\t\t\"start\":12,\n" +
 			"\t\t\t\t\"type\":\"TextPositionSelector\"\n" +
 			"\t\t\t},\n" +
-			"\t\t\t\"source\":\"http://catma.de/gitlab/%1$s/documents/%8$s\"\n" +
+			"\t\t\t\"source\":\"http://[YOUR-DOMAIN]/gitlab/%1$s/documents/%8$s\"\n" +
 			"\t\t},\n" +
 			"\t\t{\n" +
 			"\t\t\t\"selector\":{\n" +
@@ -102,7 +102,7 @@ public class JsonLdWebAnnotationTest {
 			"\t\t\t\t\"start\":41,\n" +
 			"\t\t\t\t\"type\":\"TextPositionSelector\"\n" +
 			"\t\t\t},\n" +
-			"\t\t\t\"source\":\"http://catma.de/gitlab/%1$s/documents/%8$s\"\n" +
+			"\t\t\t\"source\":\"http://[YOUR-DOMAIN]/gitlab/%1$s/documents/%8$s\"\n" +
 			"\t\t}],\n" +
 			"\t\t\"type\":\"List\"\n" +
 			"\t},\n" +
@@ -251,7 +251,7 @@ public class JsonLdWebAnnotationTest {
 							markupCollectionId
 					),
 					"Test Committer",
-					"testcommitter@catma.de"
+					"testcommitter@[YOUR-DOMAIN]"
 			);
 			localJGitRepoManager.detach();  // can't call open on an attached instance
 
@@ -314,7 +314,7 @@ public class JsonLdWebAnnotationTest {
 			submoduleGit.add().addFilepattern(tagDefinitionUuid).call();
 			submoduleGit.commit().setMessage(
 					String.format("Adding tag definition %s", tagDefinitionUuid)
-			).setCommitter("Test Committer", "testcommitter@catma.de").call();
+			).setCommitter("Test Committer", "testcommitter@[YOUR-DOMAIN]").call();
 			submoduleGit.push().setCredentialsProvider(
 					new UsernamePasswordCredentialsProvider(
 							gitLabServerManager.getUsername(),
@@ -329,7 +329,7 @@ public class JsonLdWebAnnotationTest {
 			localJGitRepoManager.commit(
 					String.format("Updating tagset %s", tagsetId),
 					"Test Committer",
-					"testcommitter@catma.de"
+					"testcommitter@[YOUR-DOMAIN]"
 			);
 
 			// construct TagInstance object
@@ -343,7 +343,7 @@ public class JsonLdWebAnnotationTest {
 
 			// construct JsonLdWebAnnotation object
 			String sourceDocumentUri = String.format(
-					"http://catma.de/gitlab/%s/%s/%s",
+					"http://[YOUR-DOMAIN]/gitlab/%s/%s/%s",
 					projectRootRepositoryName,
 					GitProjectHandler.SOURCE_DOCUMENT_SUBMODULES_DIRECTORY_NAME,
 					sourceDocumentId
@@ -364,7 +364,7 @@ public class JsonLdWebAnnotationTest {
 			);
 
 			JsonLdWebAnnotation jsonLdWebAnnotation = new JsonLdWebAnnotation(
-					"http://catma.de/gitlab", projectId, tagReferences
+					"http://[YOUR-DOMAIN]/gitlab", projectId, tagReferences
 			);
 
 			HashMap<String, Object> returnValue = new HashMap<>();
@@ -527,7 +527,7 @@ public class JsonLdWebAnnotationTest {
 			assertEquals(
 					new URI(
 							String.format(
-									"http://catma.de/gitlab/%s/%s/%s",
+									"http://[YOUR-DOMAIN]/gitlab/%s/%s/%s",
 									getJsonLdWebAnnotationResult.get("projectRootRepositoryName"),
 									GitProjectHandler.SOURCE_DOCUMENT_SUBMODULES_DIRECTORY_NAME,
 									getJsonLdWebAnnotationResult.get("sourceDocumentUuid")
@@ -540,7 +540,7 @@ public class JsonLdWebAnnotationTest {
 			assertEquals(
 					new URI(
 							String.format(
-									"http://catma.de/gitlab/%s/%s/%s",
+									"http://[YOUR-DOMAIN]/gitlab/%s/%s/%s",
 									getJsonLdWebAnnotationResult.get("projectRootRepositoryName"),
 									GitProjectHandler.SOURCE_DOCUMENT_SUBMODULES_DIRECTORY_NAME,
 									getJsonLdWebAnnotationResult.get("sourceDocumentUuid")

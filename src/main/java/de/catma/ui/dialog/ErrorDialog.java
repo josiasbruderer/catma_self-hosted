@@ -43,7 +43,7 @@ public class ErrorDialog extends Window {
                 + "<ul>"
                 + "<li>check if it's amongst our <a href=\"https://github.com/forTEXT/catma/issues\" target=\"_blank\">known issues</a></li>"
                 + "<li>create a <a href=\"https://github.com/forTEXT/catma/issues/new/choose\" target=\"_blank\">new bug report or feature request</a></li>"
-                + "<li>send an email to <a href=\"mailto:support@catma.de\">support@catma.de</a><br/>"
+                + "<li>send an email to <a href=\"mailto:support@[YOUR-DOMAIN]\">support@[YOUR-DOMAIN]</a><br/>"
                 + "<span class=\"subtext\">(please include a short description, the error message below and any other information that may be relevant, "
                 + "such as screenshots, steps to reproduce, etc.)</span></li>"
                 + "</ul>",

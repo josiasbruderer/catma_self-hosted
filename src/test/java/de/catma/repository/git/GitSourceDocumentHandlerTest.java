@@ -73,7 +73,7 @@ public class GitSourceDocumentHandlerTest {
 		// create a fake CATMA user which we'll use to instantiate GitlabManagerRestricted (using the corresponding impersonation token) & JGitRepoManager
 		Integer randomUserId = Integer.parseInt(RandomStringUtils.randomNumeric(3));
 		String username = String.format("testuser-%s", randomUserId);
-		String email = String.format("%s@catma.de", username);
+		String email = String.format("%s@[YOUR-DOMAIN]", username);
 		String name = String.format("Test User %s", randomUserId);
 
 		gitlabManagerPrivileged = new GitlabManagerPrivileged();

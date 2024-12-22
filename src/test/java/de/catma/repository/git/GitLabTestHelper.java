@@ -20,7 +20,7 @@ public class GitLabTestHelper {
 		// create a fake CATMA user which we'll use to instantiate GitlabManagerRestricted
 		Integer randomUserId = new Random().nextInt(1000);
 		String username = String.format("testuser-%s", randomUserId);
-		String email = String.format("%s@catma.de", username);
+		String email = String.format("%s@[YOUR-DOMAIN]", username);
 		String name = String.format("Test User %s", randomUserId);
 
 		GitlabManagerPrivileged gitlabManagerPrivileged = new GitlabManagerPrivileged();

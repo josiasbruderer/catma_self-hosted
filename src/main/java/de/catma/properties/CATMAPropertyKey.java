@@ -65,17 +65,17 @@ public enum CATMAPropertyKey {
 	OTP_SECRET,
 	OTP_DURATION,
 
-	ABOUT_URL("https://catma.de"),
-	IMPRINT_URL("https://catma.de/about/imprint/"),
-	TERMS_OF_USE_URL("https://catma.de/documentation/terms-of-use/"),
-	PRIVACY_POLICY_URL("https://catma.de/documentation/privacy-policy/"),
-	STATUS_URL("https://catma.de/status/"),
-	RESET_PASSWORD_URL("https://git.catma.de/users/password/new"),
-	LOGOUT_URL("https://app.catma.de"),
-	CONTEXT_DEFINITION_URL("https://www.catma.de/"),
+	ABOUT_URL("https://[YOUR-DOMAIN]"),
+	IMPRINT_URL("https://[YOUR-DOMAIN]/imprint.html"),
+	TERMS_OF_USE_URL("https://[YOUR-DOMAIN]/terms-of-use.html"),
+	PRIVACY_POLICY_URL("https://[YOUR-DOMAIN]/privacy-policy.html"),
+	STATUS_URL("https://[YOUR-DOMAIN]/status.html"),
+	RESET_PASSWORD_URL("https://git.[YOUR-DOMAIN]/users/password/new"),
+	LOGOUT_URL("https://app.[YOUR-DOMAIN]"),
+	CONTEXT_DEFINITION_URL("https://www.[YOUR-DOMAIN]/"),
 
 	// important that this has a trailing slash because of how it's used in some places (TODO: handle both variants for all URLs)
-	CATMA_5_API_URL("https://portal.catma.de/catma/api/"),
+	CATMA_5_API_URL("https://portal.[YOUR-DOMAIN]/catma/api/"),
 	EXPERT_MODE("false"),
 
 	V6_REPO_MIGRATION_MAX_USERS("1"),

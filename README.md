@@ -10,7 +10,8 @@ CATMA uses a Gitlab instance as its backend to store and manage the project's re
 
 ## TODO
 
-- [ ] search and replace hardcoded links in sourcecode 
+- [x] search and replace hardcoded links in sourcecode 
+- [x] gitlab smtp not working
 
 # Prerequirements
 
@@ -39,7 +40,7 @@ This guide walks you through the installation of CATMA (inclusive all dependenci
 
 1. General preparations
 
-```
+```bash
 #check swap and create if non existent
 cat /proc/swaps
 sudo fallocate -l 8G /swapfile
@@ -48,12 +49,13 @@ sudo mkswap /swapfile
 sudo swapon /swapfile
 sudo cp /etc/fstab /etc/fstab.bak
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+echo 'TERM=xterm-256color' | sudo tee -a /etc/environment
 ```
 
 
 2. Install requirements
 
-```
+```bash
 sudo apt update && sudo apt upgrade
 sudo apt install git nano nmon ncdu ca-certificates curl
 
@@ -107,7 +109,7 @@ docker info
 
 3. Build packages
 
-```
+```bash
 #dependency: gitlab4j-api
 git clone https://github.com/forTEXT/gitlab4j-api.git
 cd gitlab4j-api
@@ -139,6 +141,7 @@ cd ~
 #application: catma
 git clone https://github.com/josiasbruderer/catma_self-hosted.git
 cd catma_self-hosted
+#WIP: REPLACE ALL [YOUR-DOMAIN] with your domain name!
 mvn clean compile package -DskipTests
 cd ~
 ```
@@ -146,7 +149,7 @@ cd ~
 
 4. configure requirements
 
-```
+```bash
 #tomcat
 sudo useradd -m -d /opt/tomcat -U -s /bin/bash tomcat
 sudo usermod -aG tomcat $USER
@@ -169,21 +172,35 @@ sudo systemctl start nginx
 sudo certbot --nginx --email [YOUR-ADMIN-EMAIL] -d [YOUR-DOMAIN] -d app.[YOUR-DOMAIN] -d git.[YOUR-DOMAIN]
 
 #catma-app
-sudo mkdir -p /opt/catma-app/repo /opt/catma-app/temp /opt/catma-app/db /opt/catma-app/source /opt/catma-app/backup
+sudo mkdir -p /opt/catma-app/repo /opt/catma-app/temp /opt/catma-app/db /opt/catma-app/source /opt/catma-app/backup /opt/catma-app/web
 sudo cp ~/catma_self-hosted/target/catma-7.0-SNAPSHOT.war /opt/catma-app/source/
 sudo cp ~/catma_self-hosted/helpers/catma.properties /opt/catma-app/source
+sudo cp ~/catma_self-hosted/helpers/web/* /opt/catma-app/web/
 ```
 
 
 5. setup gitlab
 
-```
+```bash
 curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
 sudo EXTERNAL_URL="http://localhost:8484" apt-get install gitlab-ce
 sudo nano /etc/gitlab/gitlab.rb
-#modify smtp settings
+#modify smtp settings and have a look at gitlab_email_* as well!
 #set external url
 #set: puma['port'] = 8089
+#set: external_url 'https://git.[YOUR-DOMAIN]'
+#set: nginx['listen_port'] = 8080  # Or any port GitLab's internal nginx is using
+#set: nginx['listen_https'] = false
+#set: nginx['proxy_set_headers'] = {
+ "Host" => "$http_host_with_default",
+ "X-Real-IP" => "$remote_addr",
+ "X-Forwarded-For" => "$proxy_add_x_forwarded_for",
+ "X-Forwarded-Proto" => "https",
+ "X-Forwarded-Ssl" => "on",
+ "Upgrade" => "$http_upgrade",
+ "Connection" => "$connection_upgrade"
+}
+
 
 sudo gitlab-ctl reconfigure
 
@@ -201,7 +218,7 @@ sudo cat /etc/gitlab/initial_root_password
 - generate recaptcha keys: https://cloud.google.com/recaptcha/docs/create-key-website?hl=de
 - 
 
-```
+```bash
 sudo nano /opt/catma-app/source/catma.properties
 #modify...
 sudo chown -R tomcat:tomcat /opt/catma-app/
@@ -210,7 +227,7 @@ sudo chown -R tomcat:tomcat /opt/catma-app/
 
 7. Spin up CATMA App
 
-```
+```bash
 sudo mv /opt/tomcat/webapps/ROOT /opt/tomcat/webapps/ROOT_backup
 sudo cp /opt/catma-app/source/catma-7.0-SNAPSHOT.war /opt/tomcat/webapps/ROOT.war
 sudo cp /opt/catma-app/source/catma.properties /opt/tomcat/webapps/ROOT/
@@ -218,4 +235,3 @@ sudo chown -R tomcat:tomcat /opt/tomcat/
 
 sudo systemctl restart tomcat
 ```
-

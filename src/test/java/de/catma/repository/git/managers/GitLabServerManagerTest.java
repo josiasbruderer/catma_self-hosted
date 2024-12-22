@@ -48,7 +48,7 @@ public class GitLabServerManagerTest {
 		// create a fake CATMA user which we'll use to instantiate GitlabManagerRestricted (using the corresponding impersonation token)
 		Integer randomUserId = Integer.parseInt(RandomStringUtils.randomNumeric(3));
 		String username = String.format("testuser-%s", randomUserId);
-		String email = String.format("%s@catma.de", username);
+		String email = String.format("%s@[YOUR-DOMAIN]", username);
 		String name = String.format("Test User %s", randomUserId);
 
 		gitlabManagerPrivileged = new GitlabManagerPrivileged();
@@ -306,7 +306,7 @@ public class GitLabServerManagerTest {
 //	@Test
 //	public void createUser() throws Exception {
 //		Integer createdUserId = this.serverManager.createUser(
-//			"testuser@catma.de", "testuser", null, "Test User",
+//			"testuser@[YOUR-DOMAIN]", "testuser", null, "Test User",
 //			null
 //		);
 //		this.usersToDeleteOnTearDown.add(createdUserId);
@@ -316,7 +316,7 @@ public class GitLabServerManagerTest {
 //
 //		User user = this.serverManager.getAdminGitLabApi().getUserApi().getUser(createdUserId);
 //		assertNotNull(user);
-//		assertEquals("testuser@catma.de", user.getEmail());
+//		assertEquals("testuser@[YOUR-DOMAIN]", user.getEmail());
 //		assertEquals("testuser", user.getUsername());
 //		assertEquals("Test User", user.getName());
 ////		assertFalse(user.getIsAdmin()); // seems to always return null
@@ -328,7 +328,7 @@ public class GitLabServerManagerTest {
 //	@Test
 //	public void createAdminUser() throws Exception {
 //		Integer createdUserId = this.serverManager.createUser(
-//			"testadminuser@catma.de", "testadminuser", null,
+//			"testadminuser@[YOUR-DOMAIN]", "testadminuser", null,
 //			"Test AdminUser", true
 //		);
 //		this.usersToDeleteOnTearDown.add(createdUserId);
@@ -338,7 +338,7 @@ public class GitLabServerManagerTest {
 //
 //		User user = this.serverManager.getAdminGitLabApi().getUserApi().getUser(createdUserId);
 //		assertNotNull(user);
-//		assertEquals("testadminuser@catma.de", user.getEmail());
+//		assertEquals("testadminuser@[YOUR-DOMAIN]", user.getEmail());
 //		assertEquals("testadminuser", user.getUsername());
 //		assertEquals("Test AdminUser", user.getName());
 ////		assert user.getIsAdmin(); // seems to always return null

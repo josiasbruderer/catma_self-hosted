@@ -84,7 +84,7 @@ class GitProjectsManagerTest {
 //	@Test
 //	void getProjectList() throws Exception {
 //		String impersonationToken = gitlabManagerPrivileged.acquireImpersonationToken(
-//				"testuser-159","catma", "testuser-159@catma.de", 
+//				"testuser-159","catma", "testuser-159@[YOUR-DOMAIN]", 
 //				"Test User 159").getSecond();
 //
 //		BackgroundService mockBackgroundService = mock(BackgroundService.class);

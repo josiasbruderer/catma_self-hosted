@@ -16,7 +16,7 @@ public class UserIdentification {
 			UserProperty.provider.name(), "catma");
 		
 		userIdentification.put(
-			UserProperty.email.name(), user + "@catma.de"); //TODO: debugging purposes only
+			UserProperty.email.name(), user + "@[YOUR-DOMAIN]"); //TODO: debugging purposes only
 		userIdentification.put(
 			UserProperty.name.name(), user);
 	

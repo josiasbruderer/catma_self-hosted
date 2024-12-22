@@ -292,7 +292,7 @@ public class JGitRepoManagerTest {
 
 			jGitRepoManager.addAndCommit(
 				targetFile, originalSourceDocumentBytes,
-				"Test Committer", "testcommitter@catma.de"
+				"Test Committer", "testcommitter@[YOUR-DOMAIN]"
 			);
 
 			Git gitApi = jGitRepoManager.getGitApi();
@@ -307,7 +307,7 @@ public class JGitRepoManagerTest {
 
 			assertEquals(1, commitsList.size());
 			assertEquals("Test Committer" , commitsList.get(0).getCommitterIdent().getName());
-			assertEquals("testcommitter@catma.de" , commitsList.get(0).getCommitterIdent().getEmailAddress());
+			assertEquals("testcommitter@[YOUR-DOMAIN]" , commitsList.get(0).getCommitterIdent().getEmailAddress());
 		}
 	}
 
@@ -340,7 +340,7 @@ public class JGitRepoManagerTest {
 
 			jGitRepoManager.commit(
 				String.format("Adding %s", targetFile.getName()),
-				"Test Committer", "testcommitter@catma.de"
+				"Test Committer", "testcommitter@[YOUR-DOMAIN]"
 			);
 
 			status = gitApi.status().call();
@@ -353,7 +353,7 @@ public class JGitRepoManagerTest {
 
 			assertEquals(1, commitsList.size());
 			assertEquals("Test Committer" , commitsList.get(0).getCommitterIdent().getName());
-			assertEquals("testcommitter@catma.de" , commitsList.get(0).getCommitterIdent().getEmailAddress());
+			assertEquals("testcommitter@[YOUR-DOMAIN]" , commitsList.get(0).getCommitterIdent().getEmailAddress());
 		}
 	}
 
@@ -457,7 +457,7 @@ public class JGitRepoManagerTest {
 
 			jGitRepoManager.addAndCommit(
 				targetFile, originalSourceDocumentBytes,
-				"Test Committer", "testcommitter@catma.de"
+				"Test Committer", "testcommitter@[YOUR-DOMAIN]"
 			);
 
 			jGitRepoManager.push(null, null);
@@ -512,7 +512,7 @@ public class JGitRepoManagerTest {
 
 			jGitRepoManager.addAndCommit(
 				targetFile, originalSourceDocumentBytes,
-				"Test Committer", "testcommitter@catma.de"
+				"Test Committer", "testcommitter@[YOUR-DOMAIN]"
 			);
 
 			jGitRepoManager.push(
@@ -575,7 +575,7 @@ public class JGitRepoManagerTest {
 
 			jGitRepoManager.addAndCommit(
 				targetFile, originalSourceDocumentBytes,
-				"Test Committer", "testcommitter@catma.de"
+				"Test Committer", "testcommitter@[YOUR-DOMAIN]"
 			);
 
 			jGitRepoManager.push(null, null);
@@ -636,10 +636,10 @@ public class JGitRepoManagerTest {
 			File targetFile2 = new File(testRepoPath, file2.getName());
 
 			jGitRepoManager.addAndCommit(
-				targetFile1, file1Bytes, "Test Committer", "testcommitter@catma.de"
+				targetFile1, file1Bytes, "Test Committer", "testcommitter@[YOUR-DOMAIN]"
 			);
 			jGitRepoManager.addAndCommit(
-				targetFile2, file2Bytes, "Test Committer", "testcommitter@catma.de"
+				targetFile2, file2Bytes, "Test Committer", "testcommitter@[YOUR-DOMAIN]"
 			);
 
 			// get the commit hashes by inspecting the Git log
@@ -711,7 +711,7 @@ public class JGitRepoManagerTest {
 
 			jGitRepoManager.add(targetFile1, file1Bytes);
 			RevCommit revCommit = jGitRepoManager.getGitApi().commit().setMessage("Adding rose_for_emily.txt")
-					.setCommitter("Test Committer", "testcommitter@catma.de").call();
+					.setCommitter("Test Committer", "testcommitter@[YOUR-DOMAIN]").call();
 			String expectedSubmoduleHeadRevisionHash = revCommit.getId().getName();
 
 			jGitRepoManager.detach();  // can't call open on an attached instance
