@@ -149,7 +149,7 @@ public class NotLoggedInMainView extends VerticalFlexLayout {
 		fortextButton.setTargetName("_blank");
 		fortextButton.addStyleName("not-logged-in-main-view-fortext-button");
 
-		Label fortextLabel = new Label("developed and maintained</br>in cooperation with");
+		Label fortextLabel = new Label("self-hosted instance of CATMA</br>developed in cooperation with");
 		fortextLabel.setContentMode(ContentMode.HTML);
 		fortextLabel.addStyleName("not-logged-in-main-view-fortext-label");
 

@@ -50,6 +50,8 @@ sudo swapon /swapfile
 sudo cp /etc/fstab /etc/fstab.bak
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 echo 'TERM=xterm-256color' | sudo tee -a /etc/environment
+echo 'ROOTDOMAIN=[YOUR-DOMAIN]' | sudo tee -a /etc/environment
+#log off and in again
 ```
 
 
@@ -141,7 +143,8 @@ cd ~
 #application: catma
 git clone https://github.com/josiasbruderer/catma_self-hosted.git
 cd catma_self-hosted
-#WIP: REPLACE ALL [YOUR-DOMAIN] with your domain name!
+find ./ -type f -exec sed -i -e "s/\[YOUR\-DOMAIN\]/${ROOTDOMAIN}/g" {} \;
+git restore README.md
 mvn clean compile package -DskipTests
 cd ~
 ```
@@ -165,11 +168,9 @@ sudo systemctl start tomcat
 
 #nginx and letsencrypt
 sudo cp ~/catma_self-hosted/helpers/nginx_default /etc/nginx/sites-available/default
-sudo nano /etc/nginx/sites-available/default
-#replace [YOUR-DOMAIN] with your real domain
 sudo systemctl enable nginx
 sudo systemctl start nginx
-sudo certbot --nginx --email [YOUR-ADMIN-EMAIL] -d [YOUR-DOMAIN] -d app.[YOUR-DOMAIN] -d git.[YOUR-DOMAIN]
+sudo certbot --nginx --email support@$ROOTDOMAIN -d $ROOTDOMAIN -d app.$ROOTDOMAIN -d git.$ROOTDOMAIN
 
 #catma-app
 sudo mkdir -p /opt/catma-app/repo /opt/catma-app/temp /opt/catma-app/db /opt/catma-app/source /opt/catma-app/backup /opt/catma-app/web
@@ -233,5 +234,44 @@ sudo cp /opt/catma-app/source/catma-7.0-SNAPSHOT.war /opt/tomcat/webapps/ROOT.wa
 sudo cp /opt/catma-app/source/catma.properties /opt/tomcat/webapps/ROOT/
 sudo chown -R tomcat:tomcat /opt/tomcat/
 
+sudo systemctl restart tomcat
+```
+
+
+## Update
+
+
+```
+cd ~/catma_self-hosted
+git fetch --all
+git reset --hard
+git pull
+
+#replace all placeholders
+find ./ -type f -exec sed -i -e "s/\[YOUR\-DOMAIN\]/${ROOTDOMAIN}/g" {} \;
+git restore README.md
+
+sudo cp ~/catma_self-hosted/helpers/nginx_default /etc/nginx/sites-available/default
+sudo systemctl restart nginx
+sudo certbot --nginx --email support@$ROOTDOMAIN -d $ROOTDOMAIN -d app.$ROOTDOMAIN -d git.$ROOTDOMAIN
+
+#free up memory
+sudo gitlab-ctl stop
+sudo systemctl stop tomcat
+
+mvn clean compile package -DskipTests
+
+sudo cp ~/catma_self-hosted/target/catma-7.0-SNAPSHOT.war /opt/catma-app/source/
+#manually compare ~/catma_self-hosted/helpers/catma.properties with /opt/catma-app/source/catma.properties
+#manually compare ~/catma_self-hosted/helpers/web/* with /opt/catma-app/web/*
+#or: sudo cp ~/catma_self-hosted/helpers/web/* /opt/catma-app/web/
+
+sudo rm -r /opt/tomcat/webapps/ROOT
+
+sudo gitlab-ctl start
+sudo systemctl start tomcat
+
+sudo cp /opt/catma-app/source/catma-7.0-SNAPSHOT.war /opt/tomcat/webapps/ROOT.war
+sudo cp /opt/catma-app/source/catma.properties /opt/tomcat/webapps/ROOT/catma.properties
 sudo systemctl restart tomcat
 ```
