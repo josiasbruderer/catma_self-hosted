@@ -6,8 +6,14 @@ target='/var/server_backups'
 
 clear
 
-rm -rf $target #altes Backup löschen
-mkdir $target #Ordner für neues Backup erstellen
+seven_days=$(date -d '7 days ago' '+%s')
+stat -c "%Y %n" $target/*/ | sort -nr | tail -n +7 | while read -r mtime name; do
+    if (( mtime < seven_days )); then
+        echo "remove directory $name"
+        rm -rf $name #altes Backup löschen
+    fi
+done
+mkdir -p $target #Ordner für neues Backup erstellen
 
 dt=$(date '+%Y%m%d-%H%M%S')
 target="$target/$dt"
@@ -16,6 +22,8 @@ mkdir $target #Unterordner für neues Backup erstellen
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') | Starting backup"
 echo "$(date '+%Y-%m-%d %H:%M:%S') | Starting backup" > $target/log.txt
+
+sleep 2
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') | Create DB Dumps"
 echo "$(date '+%Y-%m-%d %H:%M:%S') | Create DB Dumps" >> $target/log.txt
